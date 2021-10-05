@@ -1,26 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import './hooks/axios';
+
+// router
+import Router from './router/index.router';
+
+// styles
+import './scss/index.scss';
+import { unstable_createMuiStrictModeTheme as createTheme } from '@material-ui/core';
+import { esES } from '@material-ui/data-grid';
+import { esES as coreesES } from '@material-ui/core/locale';
+import ThemeProvider from '@material-ui/styles/ThemeProvider';
+
+const theme = createTheme(
+	{
+		palette: {},
+	},
+	esES,
+	coreesES,
+);
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	return (
+		<div className='ed-container'>
+			<div className='m-95 m-to-right'>
+				<ThemeProvider theme={theme}>
+					<Router />
+				</ThemeProvider>
+			</div>
+		</div>
+	);
 }
 
 export default App;
