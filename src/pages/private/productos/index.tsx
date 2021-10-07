@@ -1,8 +1,8 @@
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import Box from '@mui/material/Box';
-import TableUI from '../../../templates/table';
-import Modal from '../../../templates/Modal';
+import TableUI from '../../../templates/components/table';
+import Modal from '../../../templates/components/Modal';
 
 const Products = () => {
 	return (

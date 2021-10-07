@@ -1,5 +1,5 @@
 import React from 'react';
-import SideBar from '../../templates/SideBar';
+import SideBar from '../../templates/components/SideBar';
 import Products from './productos';
 
 const Dash = () => {
