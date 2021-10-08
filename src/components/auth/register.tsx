@@ -1,10 +1,10 @@
-import CreateForm from '../../hooks/createForm';
+import CreateForm from '../createForm';
 import * as yup from 'yup';
 import { InputAdornment } from '@mui/material';
 import { AccountCircle } from '@material-ui/icons';
 import LockIcon from '@mui/icons-material/Lock';
 import EmailIcon from '@mui/icons-material/Email';
-import { fromInput } from '../../hooks/createForm/interface';
+import { fromInput } from '../createForm/interface';
 import axios from 'axios';
 import Swal from '../../hooks/Alert';
 

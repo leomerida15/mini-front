@@ -1,6 +1,5 @@
-import React from 'react';
-import SideBar from '../../templates/components/SideBar';
-import Products from './productos';
+import SideBar from '../../components/SideBar';
+import Products from './category';
 
 const Dash = () => {
 	return (

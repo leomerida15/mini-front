@@ -7,6 +7,16 @@ const Public: Api.Route[] = [
 		component: Dash,
 		meta: { auth: true },
 	},
+	{
+		path: '/category',
+		component: Dash,
+		meta: { auth: true },
+	},
+	{
+		path: '/category/create',
+		component: Dash,
+		meta: { auth: true },
+	},
 ];
 
 export default Public;

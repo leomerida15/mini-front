@@ -26,8 +26,11 @@ const createForm: FC<{
 	fromInput: fromInput[];
 	Action: any;
 	schema: any;
+	sx?: any;
+	conten?: string;
 	buttonText?: string;
-}> = ({ fromInput, Action, schema, buttonText }) => {
+	ButtonClass?: string;
+}> = ({ fromInput, Action, schema, sx, conten, ButtonClass, buttonText }) => {
 	const {
 		control,
 		handleSubmit,
@@ -205,10 +208,14 @@ const createForm: FC<{
 	return (
 		<Box
 			component='form'
-			sx={{
-				'& > :not(style)': { m: 1 },
-			}}
-			className='ed-grid'
+			sx={
+				sx
+					? sx
+					: {
+							'& > :not(style)': { m: 1 },
+					  }
+			}
+			className={conten ? conten : 'ed-grid'}
 			noValidate
 			autoComplete='off'
 			onSubmit={onSubmit}>
@@ -226,7 +233,7 @@ const createForm: FC<{
 				);
 			})}
 
-			<Button onClick={handleSubmit(onSubmit)} variant={'contained'}>
+			<Button onClick={handleSubmit(onSubmit)} className={ButtonClass ? ButtonClass : ''} variant={'contained'}>
 				{buttonText ? buttonText : 'Submit'}
 			</Button>
 		</Box>
@@ -237,7 +244,10 @@ createForm.propTypes = {
 	fromInput: PropTypes.array.isRequired,
 	Action: PropTypes.func.isRequired,
 	schema: PropTypes.any.isRequired,
+	sx: PropTypes.any,
 	buttonText: PropTypes.string,
+	conten: PropTypes.string,
+	ButtonClass: PropTypes.string,
 };
 
 export default createForm;

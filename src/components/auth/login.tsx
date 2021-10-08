@@ -1,9 +1,9 @@
-import CreateForm from '../../hooks/createForm';
+import CreateForm from '../createForm';
 import * as yup from 'yup';
 import { InputAdornment } from '@mui/material';
 import LockIcon from '@mui/icons-material/Lock';
 import EmailIcon from '@mui/icons-material/Email';
-import { fromInput } from '../../hooks/createForm/interface';
+import { fromInput } from '../createForm/interface';
 import axios from 'axios';
 import Swal from '../../hooks/Alert';
 import { useHistory } from 'react-router';
@@ -31,7 +31,7 @@ const Login = () => {
 
 	const fromData: fromInput[] = [
 		{
-			type: 'email',
+			type: 'text',
 			name: 'email',
 			label: 'Correo',
 			rules: (value: any) => {
