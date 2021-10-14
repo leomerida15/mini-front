@@ -8,6 +8,7 @@ export interface fromInput {
 	label: string;
 	type: string;
 	rules: any;
+	value?: string | number;
 	render?: any;
 	currencies?: currencie[];
 	InputProps?: any;

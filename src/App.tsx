@@ -10,13 +10,7 @@ import { esES } from '@material-ui/data-grid';
 import { esES as coreesES } from '@material-ui/core/locale';
 import ThemeProvider from '@material-ui/styles/ThemeProvider';
 
-const theme = createTheme(
-	{
-		palette: {},
-	},
-	esES,
-	coreesES,
-);
+const theme = createTheme({}, esES, coreesES);
 
 function App() {
 	return (

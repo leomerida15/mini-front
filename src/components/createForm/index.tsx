@@ -52,6 +52,7 @@ const createForm: FC<{
 			case 'select':
 				return ({ field: { onChange, value } }: pInput): JSX.Element => {
 					const { currencies, name, label }: any = input;
+					if (input.value) value = input.value;
 
 					return (
 						<TextField
@@ -72,6 +73,8 @@ const createForm: FC<{
 			case 'select-multiple':
 				return ({ field: { onChange, value } }: pInput): JSX.Element => {
 					const { currencies, name, label }: any = input;
+					if (input.value) value = input.value;
+
 					// eslint-disable-next-line react-hooks/rules-of-hooks
 					const [personName, setPersonName] = useState<string[]>([]);
 
@@ -114,6 +117,8 @@ const createForm: FC<{
 				return ({ field: { onChange, value } }: pInput): JSX.Element => {
 					const { name, InputProps, label } = input;
 
+					if (input.value) value = input.value;
+
 					return (
 						<TextField
 							onChange={onChange}
@@ -144,6 +149,8 @@ const createForm: FC<{
 			case 'password-see':
 				return ({ field: { onChange, value } }: pInput): JSX.Element => {
 					const { name, label } = input;
+
+					if (input.value) value = input.value;
 
 					// eslint-disable-next-line react-hooks/rules-of-hooks
 					const [values, setValues] = useState<any>({ password: value, showPassword: false });
@@ -189,6 +196,8 @@ const createForm: FC<{
 			case 'password':
 				return ({ field: { onChange, value } }: pInput): JSX.Element => {
 					const { name, InputProps, label } = input;
+
+					if (input.value) value = input.value;
 
 					return (
 						<TextField
