@@ -69,7 +69,6 @@ const Products = () => {
 				alert('value ' + value);
 				return { required: true };
 			},
-			value: '',
 			InputProps: {
 				startAdornment: (
 					<InputAdornment position='start'>
@@ -126,12 +125,12 @@ const Products = () => {
 			fromDataEdit.forEach((Data, i: number, a: any[]) => {
 				const { name }: any = Data;
 				fromDataEdit[i].value = api.row[name] ?? '';
-
-				if (i === a.length - 1) History.push('/category/edit/' + api.id);
 			});
+
+			console.log('fromDataEdit', fromDataEdit);
+			History.push('/category/edit/' + api.id);
 		},
 		remove(api) {
-			alert('remove');
 			console.log('api', api);
 		},
 	};
@@ -151,17 +150,13 @@ const Products = () => {
 				</Fab>
 			</Box>
 
-			{openCreate ? (
-				<Modal open={openCreate} onClose={() => History.push('/category')}>
-					<CreateForm buttonText='crear' Action={Action} schema={schema} fromInput={fromDataCreate} />
-				</Modal>
-			) : openEdit ? (
-				<Modal open={openEdit} onClose={() => History.push('/category')}>
-					<CreateForm buttonText='editar' Action={ActionEdit} schema={schema} fromInput={fromDataEdit} />
-				</Modal>
-			) : (
-				''
-			)}
+			<Modal open={openCreate} onClose={() => History.push('/category')}>
+				<CreateForm buttonText='crear' Action={Action} schema={schema} fromInput={fromDataCreate} />
+			</Modal>
+
+			<Modal open={openEdit} onClose={() => History.push('/category')}>
+				<CreateForm buttonText='editar' Action={ActionEdit} schema={schema} fromInput={fromDataEdit} />
+			</Modal>
 		</div>
 	);
 };
