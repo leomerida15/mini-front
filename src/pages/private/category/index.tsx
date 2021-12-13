@@ -12,6 +12,9 @@ import { InputAdornment } from '@mui/material';
 import CategoryIcon from '@mui/icons-material/Category';
 import { GridColDef } from '@mui/x-data-grid-pro';
 import { actions } from '../../../components/createTable/interface';
+import { useState, useEffect, useContext } from 'react';
+import CategoryState from './CategoryState';
+import CategoryContext from './CategoryContex';
 
 const schema = yup
 	.object({
@@ -50,25 +53,6 @@ const Products = () => {
 			rules: (value: any) => ({
 				required: true,
 			}),
-			InputProps: {
-				startAdornment: (
-					<InputAdornment position='start'>
-						<CategoryIcon />
-					</InputAdornment>
-				),
-			},
-		},
-	];
-
-	let fromDataEdit: fromInput[] = [
-		{
-			type: 'text',
-			name: 'name',
-			label: 'Editar categoria',
-			rules: (value: any) => {
-				alert('value ' + value);
-				return { required: true };
-			},
 			InputProps: {
 				startAdornment: (
 					<InputAdornment position='start'>
@@ -122,21 +106,22 @@ const Products = () => {
 
 	const actions: actions = {
 		edit(api) {
-			fromDataEdit.forEach((Data, i: number, a: any[]) => {
-				const { name }: any = Data;
-				fromDataEdit[i].value = api.row[name] ?? '';
-			});
+			console.log('edit', api);
 
-			console.log('fromDataEdit', fromDataEdit);
 			History.push('/category/edit/' + api.id);
 		},
 		remove(api) {
+			alert('remove');
 			console.log('api', api);
 		},
 	};
 
+	const Context: any = useContext<any>(CategoryContext);
+
+	useEffect(() => {});
+
 	return (
-		<div>
+		<CategoryState>
 			<CreateTable rows={rows} columns={columns} actions={actions} />
 
 			<Box sx={{ '& > :not(style)': { m: 1 } }}>
@@ -155,9 +140,9 @@ const Products = () => {
 			</Modal>
 
 			<Modal open={openEdit} onClose={() => History.push('/category')}>
-				<CreateForm buttonText='editar' Action={ActionEdit} schema={schema} fromInput={fromDataEdit} />
+				<CreateForm buttonText='crear' Action={Action} schema={schema} fromInput={fromDataCreate} />
 			</Modal>
-		</div>
+		</CategoryState>
 	);
 };
 

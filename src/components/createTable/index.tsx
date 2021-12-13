@@ -53,7 +53,7 @@ const columnsActions = (actions: actions): GridColDef => {
 	};
 };
 
-const createTable: FC<CreateTableProps> = ({ rows, columns, actions }) => {
+const CreateTable: FC<CreateTableProps> = ({ rows, columns, actions }) => {
 	//
 	const ColumsCreate = (columns: GridColDef[], actions?: actions) => {
 		if (!actions) return columns;
@@ -70,10 +70,10 @@ const createTable: FC<CreateTableProps> = ({ rows, columns, actions }) => {
 	);
 };
 
-createTable.propTypes = {
+CreateTable.propTypes = {
 	rows: PropTypes.array.isRequired,
 	columns: PropTypes.array.isRequired,
 	actions: PropTypes.any,
 };
 
-export default createTable;
+export default CreateTable;

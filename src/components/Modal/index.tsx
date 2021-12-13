@@ -6,6 +6,7 @@ import { FC } from 'react';
 
 import PropTypes from 'prop-types';
 import { SxProps } from '@mui/system';
+import CreateForm, { createFormProps } from '../createForm';
 
 const style: SxProps = {
 	position: 'absolute' as 'absolute',
@@ -21,11 +22,12 @@ const style: SxProps = {
 	py: 4,
 };
 
-const ModalWin: FC<{ open: boolean; onClose: any; children?: JSX.Element | JSX.Element[] }> = ({
-	open,
-	onClose,
-	children,
-}) => {
+const ModalWin: FC<{
+	open: boolean;
+	onClose: any;
+	children?: JSX.Element | JSX.Element[];
+	form?: createFormProps;
+}> = ({ open, onClose, form, children }) => {
 	return (
 		<div>
 			<Modal
@@ -39,7 +41,7 @@ const ModalWin: FC<{ open: boolean; onClose: any; children?: JSX.Element | JSX.E
 					timeout: 500,
 				}}>
 				<Fade in={open}>
-					<Box sx={style}> {children}</Box>
+					<Box sx={style}> {form ? <CreateForm {...form} /> : ''}</Box>
 				</Fade>
 			</Modal>
 		</div>
@@ -49,6 +51,8 @@ const ModalWin: FC<{ open: boolean; onClose: any; children?: JSX.Element | JSX.E
 ModalWin.propTypes = {
 	open: PropTypes.bool.isRequired,
 	onClose: PropTypes.func.isRequired,
+	form: PropTypes.any,
+	children: PropTypes.element,
 };
 
 export default ModalWin;
