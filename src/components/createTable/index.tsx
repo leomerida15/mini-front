@@ -1,3 +1,5 @@
+/** @format */
+
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import PrintIcon from '@mui/icons-material/Print';
@@ -6,44 +8,39 @@ import { FC } from 'react';
 import Fab from '@mui/material/Fab';
 
 import PropTypes from 'prop-types';
-import { CreateTableProps, actions } from './interface';
+import { CreateTableProps, TableActions } from './interface';
 
-const columnsActions = (actions: actions): GridColDef => {
+const columnsActions = (actions: TableActions): GridColDef => {
 	const { remove, print, edit } = actions;
 	const renderCell = (params: GridRenderCellParams) => {
-		const { api } = params;
-		if (!actions.print) {
-			return (
-				<strong>
-					<Fab size='small' onClick={() => edit(params)} color='primary'>
-						<EditIcon />
-					</Fab>
-					<Fab size='small' onClick={() => remove(params)} color='secondary'>
-						<DeleteIcon />
-					</Fab>
-				</strong>
-			);
-		} else {
-			return (
-				<strong>
-					<Fab
-						size='small'
-						onClick={() => {
-							// @ts-expect-error
-							print(api);
-						}}
-						color='inherit'>
+		const { row } = params;
+
+		return (
+			<strong>
+				{print ? (
+					<Fab size='small' onClick={() => print(row)} color='inherit'>
 						<PrintIcon />
 					</Fab>
-					<Fab size='small' onClick={() => edit(api)} color='primary'>
+				) : (
+					''
+				)}
+				{edit ? (
+					<Fab size='small' onClick={() => edit(row)} color='primary'>
 						<EditIcon />
 					</Fab>
-					<Fab size='small' onClick={() => remove(api)} color='secondary'>
+				) : (
+					''
+				)}
+				{remove ? (
+					<Fab size='small' onClick={() => remove(row)} color='secondary'>
 						<DeleteIcon />
 					</Fab>
-				</strong>
-			);
-		}
+				) : (
+					''
+				)}
+			</strong>
+		);
+		// }
 	};
 	return {
 		field: 'actions',
@@ -55,7 +52,7 @@ const columnsActions = (actions: actions): GridColDef => {
 
 const CreateTable: FC<CreateTableProps> = ({ rows, columns, actions }) => {
 	//
-	const ColumsCreate = (columns: GridColDef[], actions?: actions) => {
+	const ColumsCreate = (columns: GridColDef[], actions?: TableActions) => {
 		if (!actions) return columns;
 
 		const colsAdd = columnsActions(actions);

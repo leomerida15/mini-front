@@ -1,3 +1,5 @@
+/** @format */
+
 import PropTypes from 'prop-types';
 import { FC } from 'react';
 
@@ -6,7 +8,7 @@ import CreateFormStatic from './static';
 export * from './interface';
 
 const CreateForm: FC<any> = (props) => {
-	return !props.context ? <CreateFormStatic {...props} /> : <CreateFormStatic {...props} />;
+	return <CreateFormStatic {...props} />;
 };
 
 CreateForm.propTypes = {

@@ -1,3 +1,5 @@
+/** @format */
+
 import CreateForm from '../createForm';
 import * as yup from 'yup';
 import { InputAdornment } from '@mui/material';
@@ -21,11 +23,23 @@ const Login = () => {
 		try {
 			console.log('body Form', body);
 
-			await axios.post('/auth/Login', body);
+			const resp = await axios.post('/auth/login', body);
+
+			const valid_rol = resp.data.info.roles.find((rol: any) => rol.name === 'Admin');
+
+			if (!valid_rol) throw new Error('No tiene permisos para acceder');
 
 			History.push('/dash');
-		} catch (err: any) {
-			Swal.fire(err);
+		} catch (err) {
+			localStorage.removeItem('token');
+			if (err === 'Error: No tiene permisos para acceder') {
+				Swal.fire({
+					title: err as any,
+					icon: 'error',
+					showConfirmButton: false,
+					timer: 1500,
+				});
+			}
 		}
 	};
 

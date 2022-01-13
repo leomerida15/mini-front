@@ -6,7 +6,8 @@ export interface meta extends Meta {
 export interface Route {
 	path: string;
 	component: any;
-	meta: meta;
+	meta?: meta;
+	children?: Route[]
 }
 
 export interface Resp<info = any> {
@@ -37,4 +38,10 @@ export interface pParroquia {
 
 export interface pCiudad {
 	id_estado: string | number;
+}
+
+export interface Rols {
+	id?: number;
+	name: string;
+	Users?: any[];
 }

@@ -1,21 +1,22 @@
+/** @format */
+
 import { BrowserRouter, Switch } from 'react-router-dom';
 import { GuardProvider, GuardedRoute } from 'react-router-guards';
-import routes from './routes/index';
+import Routes from './routes/index';
+import Home from '../pages/Home';
 
 import { Auth } from './guards';
 
-const Routes = () => (
+const Router = () => (
 	<BrowserRouter>
 		<GuardProvider guards={[Auth]}>
 			<Switch>
-				{routes.map(({ path, component, meta }) => {
-					return <GuardedRoute path={path} exact component={component} meta={meta} />;
-				})}
+				<Routes />
 				{/*  */}
-				<GuardedRoute path='*' meta={{ auth: true }} />
+				{/* <GuardedRoute path={'*'} /> */}
 			</Switch>
 		</GuardProvider>
 	</BrowserRouter>
 );
 
-export default Routes;
+export default Router;

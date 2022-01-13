@@ -2,8 +2,10 @@ import { Context } from 'react';
 
 export interface currencie {
 	value: string | number;
-	label: string;
+	name: string;
 }
+
+export interface formAction<data = any> { (data: data, reset: () => void): void | any | Promise<void | any> }
 
 export interface fromInput {
 	name: string;
@@ -12,7 +14,7 @@ export interface fromInput {
 	rules: any;
 	value?: string | number;
 	render?: any;
-	currencies?: currencie[];
+	currencies?: currencie[] | { name: string }[];
 	InputProps?: any;
 }
 
@@ -31,7 +33,7 @@ export interface createFormPropsContext {
 
 export interface createFormPropsStatic {
 	fromInput: fromInput[];
-	Action: any;
+	Action: formAction;
 	schema: any;
 	sx?: any;
 	conten?: string;

@@ -1,4 +1,6 @@
-import { ReactElement, FC, useState, ChangeEvent, MouseEvent } from 'react';
+/** @format */
+
+import { ReactElement, FC, useState, ChangeEvent, MouseEvent, useEffect } from 'react';
 //
 import Box from '@mui/material/Box';
 import MenuItem from '@mui/material/MenuItem';
@@ -35,6 +37,8 @@ const CreateFormStatic: FC<createFormPropsStatic> = ({
 		control,
 		handleSubmit,
 		formState: { errors },
+		formState,
+		reset,
 	} = useForm<any>(
 		schema
 			? {
@@ -43,7 +47,37 @@ const CreateFormStatic: FC<createFormPropsStatic> = ({
 			: {},
 	);
 
-	const onSubmit: any = handleSubmit((data: any): any => Action(data));
+	const [submittedData, setSubmittedData] = useState({});
+
+	const Clear = (obj: any): {} =>
+		Object.fromEntries(
+			Object.entries(obj).map(([key, value]): [string, any] => {
+				const type = typeof value;
+
+				if (type === 'string') return [key, ''];
+				if (type === 'number') return [key, 0];
+				if (type === 'boolean') return [key, false];
+				if (Array.isArray(value)) return [key, []];
+				if (type === 'object') return [key, Clear(value as any)];
+				return [key, value];
+			}),
+		);
+
+	const onSubmit = (data: any, e: any) => {
+		try {
+			const reseta = () => {
+				setSubmittedData(Clear(data));
+			};
+
+			Action(data, reseta);
+		} catch (err) {
+			console.error(err);
+		}
+	};
+
+	useEffect(() => {
+		if (formState.isSubmitSuccessful) reset(submittedData);
+	}, [formState, submittedData, reset]);
 
 	// const { onChange, value } = field;
 	const Input = (input: fromInput): any => {
@@ -61,9 +95,9 @@ const CreateFormStatic: FC<createFormPropsStatic> = ({
 							onChange={onChange}
 							error={!!errors[name]}
 							helperText={errors[name] && errors[name].message}>
-							{currencies.map((option: currencie) => (
-								<MenuItem key={option.value} value={option.value}>
-									{option.label}
+							{currencies.map(({ name, value }: currencie) => (
+								<MenuItem key={value} value={value}>
+									{name}
 								</MenuItem>
 							))}
 						</TextField>
@@ -81,6 +115,7 @@ const CreateFormStatic: FC<createFormPropsStatic> = ({
 						const {
 							target: { value },
 						} = event;
+
 						setPersonName(
 							// On autofill we get a the stringified value.
 							typeof value === 'string' ? value.split(',') : value,
@@ -91,7 +126,7 @@ const CreateFormStatic: FC<createFormPropsStatic> = ({
 
 					return (
 						<FormControl sx={{ m: 1 }}>
-							<InputLabel id='demo-multiple-checkbox-label'>Tag</InputLabel>
+							<InputLabel id='demo-multiple-checkbox-label'>{label}</InputLabel>
 							<Select
 								labelId='demo-multiple-checkbox-label'
 								id='demo-multiple-checkbox'
@@ -102,7 +137,7 @@ const CreateFormStatic: FC<createFormPropsStatic> = ({
 								renderValue={(selected) => selected.join(', ')}
 								MenuProps={currencies}
 								error={!!errors[name]}>
-								{currencies.map((name: any) => (
+								{currencies.map(({ name }: any) => (
 									<MenuItem key={name} value={name}>
 										<Checkbox checked={personName.indexOf(name) > -1} />
 										<ListItemText primary={name} />
@@ -215,6 +250,7 @@ const CreateFormStatic: FC<createFormPropsStatic> = ({
 
 	return (
 		<Box
+			onSubmit={handleSubmit(onSubmit)}
 			component='form'
 			sx={
 				sx
@@ -225,8 +261,7 @@ const CreateFormStatic: FC<createFormPropsStatic> = ({
 			}
 			className={conten ? conten : 'ed-grid'}
 			noValidate
-			autoComplete='off'
-			onSubmit={onSubmit}>
+			autoComplete='off'>
 			{/*  */}
 			{fromInput.map((item, i: number): ReactElement => {
 				const { name, rules } = item;
@@ -241,7 +276,7 @@ const CreateFormStatic: FC<createFormPropsStatic> = ({
 				);
 			})}
 
-			<Button onClick={handleSubmit(onSubmit)} className={ButtonClass ? ButtonClass : ''} variant={'contained'}>
+			<Button type={'submit'} className={ButtonClass ? ButtonClass : ''} variant={'contained'}>
 				{buttonText ? buttonText : 'Submit'}
 			</Button>
 		</Box>

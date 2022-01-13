@@ -1,3 +1,5 @@
+/** @format */
+
 import { ReactElement, FC, useState, ChangeEvent, MouseEvent, useEffect, useContext } from 'react';
 //
 import Box from '@mui/material/Box';
@@ -67,9 +69,9 @@ const CreateFormContext: FC<createFormPropsContext> = ({
 							onChange={onChange}
 							error={!!errors[name]}
 							helperText={errors[name] && errors[name].message}>
-							{currencies.map((option: currencie) => (
-								<MenuItem key={option.value} value={option.value}>
-									{option.label}
+							{currencies.map(({ name, value }: currencie) => (
+								<MenuItem key={value} value={value}>
+									{name}
 								</MenuItem>
 							))}
 						</TextField>
@@ -77,6 +79,8 @@ const CreateFormContext: FC<createFormPropsContext> = ({
 				};
 			case 'select-multiple':
 				return ({ field: { onChange, value } }: pInput): JSX.Element => {
+					console.log('input', input);
+
 					const { currencies, name, label }: any = input;
 					if (input.value) value = input.value;
 
@@ -97,7 +101,7 @@ const CreateFormContext: FC<createFormPropsContext> = ({
 
 					return (
 						<FormControl sx={{ m: 1 }}>
-							<InputLabel id='demo-multiple-checkbox-label'>Tag</InputLabel>
+							<InputLabel id='demo-multiple-checkbox-label'>{label}</InputLabel>
 							<Select
 								labelId='demo-multiple-checkbox-label'
 								id='demo-multiple-checkbox'
@@ -108,8 +112,8 @@ const CreateFormContext: FC<createFormPropsContext> = ({
 								renderValue={(selected) => selected.join(', ')}
 								MenuProps={currencies}
 								error={!!errors[name]}>
-								{currencies.map((name: any) => (
-									<MenuItem key={name} value={name}>
+								{currencies.map(({ name, value }: any) => (
+									<MenuItem key={name} value={value}>
 										<Checkbox checked={personName.indexOf(name) > -1} />
 										<ListItemText primary={name} />
 									</MenuItem>
