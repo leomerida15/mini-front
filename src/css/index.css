@@ -1,6 +1,5 @@
-@import '~ed-grid/ed-grid';
+/** @format */
 
-// form
 .fab {
 	position: fixed !important;
 	bottom: 25px;
