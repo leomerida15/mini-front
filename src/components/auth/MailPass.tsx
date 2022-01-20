@@ -27,7 +27,7 @@ const MailPass = () => {
 	const Action = async (body: any) => {
 		try {
 			debugger;
-			await axios.post('/auth/users/newPass', body);
+			await axios.post('/auth/newPassEmail', body);
 
 			Swal.fire({
 				title: 'Se ha enviado un correo',
@@ -63,7 +63,7 @@ const MailPass = () => {
 		},
 	];
 
-	return <CreateForm buttonText='crear' Action={Action} schema={schema} fromInput={fromData} />;
+	return <CreateForm buttonText='Enviar' Action={Action} schema={schema} fromInput={fromData} />;
 };
 
 export default MailPass;

@@ -81,7 +81,7 @@ const Login = () => {
 		},
 	];
 
-	return <CreateForm buttonText='crear' Action={Action} schema={schema} fromInput={fromData} />;
+	return <CreateForm buttonText='Entrar' Action={Action} schema={schema} fromInput={fromData} />;
 };
 
 export default Login;
