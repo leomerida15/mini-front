@@ -8,10 +8,7 @@ export const RequireAuth: FC = ({ children }) => {
 
 	if (localStorage.getItem('token')) return <>{children}</>;
 
-	if (!['/', '/pass'].includes(location.pathname)) {
-		debugger;
-		return <Navigate to='/' state={{ from: location }} replace />;
-	}
+	if (!['/', '/pass'].includes(location.pathname)) return <Navigate to='/' state={{ from: location }} replace />;
 
 	return <></>;
 };
