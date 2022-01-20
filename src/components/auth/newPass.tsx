@@ -28,8 +28,6 @@ const schema = yup
 	.required();
 
 const NewPass = () => {
-	const Navigate = useNavigate();
-
 	const [Open, setOpen] = useState(false);
 
 	const Action = async (body: any) => {
@@ -40,7 +38,6 @@ const NewPass = () => {
 				title: resp.data.message,
 				icon: 'success',
 				text: 'Revise su correo',
-				timer: 2000,
 			});
 		} catch (err) {
 			localStorage.clear();
