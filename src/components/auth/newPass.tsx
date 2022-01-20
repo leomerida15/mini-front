@@ -42,8 +42,6 @@ const NewPass = () => {
 				text: 'Revise su correo',
 				timer: 2000,
 			});
-
-			Navigate('/');
 		} catch (err) {
 			localStorage.clear();
 			AlertError(err);
