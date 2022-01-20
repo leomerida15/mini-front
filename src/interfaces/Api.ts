@@ -40,8 +40,17 @@ export interface pCiudad {
 	id_estado: string | number;
 }
 
+
+export interface User {
+	id: string | number;
+	name: string;
+	email: string;
+	password: string;
+	roles?: Rols[];
+}
+
 export interface Rols {
 	id?: number;
 	name: string;
-	Users?: any[];
+	Users?: User[];
 }

@@ -79,8 +79,6 @@ const CreateFormContext: FC<createFormPropsContext> = ({
 				};
 			case 'select-multiple':
 				return ({ field: { onChange, value } }: pInput): JSX.Element => {
-					console.log('input', input);
-
 					const { currencies, name, label }: any = input;
 					if (input.value) value = input.value;
 

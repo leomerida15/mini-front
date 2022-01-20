@@ -19,8 +19,17 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
 import ListItemText from '@mui/material/ListItemText';
+// ? para fechas
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import Stack from '@mui/material/Stack';
+import DateAdapter from '@mui/lab/AdapterLuxon';
 
-import { currencie, fromInput, pInput, createFormPropsStatic } from './interface';
+import TimePicker from '@mui/lab/TimePicker';
+import DateTimePicker from '@mui/lab/DateTimePicker';
+import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
+import MobileDatePicker from '@mui/lab/MobileDatePicker';
+
+import { fromInput, pInput, createFormPropsStatic } from './interface';
 
 export * from './interface';
 
@@ -58,18 +67,20 @@ const CreateFormStatic: FC<createFormPropsStatic> = ({
 				if (type === 'number') return [key, 0];
 				if (type === 'boolean') return [key, false];
 				if (Array.isArray(value)) return [key, []];
-				if (type === 'object') return [key, Clear(value as any)];
+				if (type === 'object') return [key, ''];
 				return [key, value];
 			}),
 		);
 
-	const onSubmit = (data: any, e: any) => {
+	const onSubmit = (data: any) => {
 		try {
-			const reseta = () => {
-				setSubmittedData(Clear(data));
+			const reseting = () => {
+				const obj = Clear(data);
+
+				setSubmittedData(obj);
 			};
 
-			Action(data, reseta);
+			Action(data, reseting);
 		} catch (err) {
 			console.error(err);
 		}
@@ -82,44 +93,68 @@ const CreateFormStatic: FC<createFormPropsStatic> = ({
 	// const { onChange, value } = field;
 	const Input = (input: fromInput): any => {
 		switch (input.type) {
-			case 'select':
+			case 'file':
 				return ({ field: { onChange, value } }: pInput): JSX.Element => {
-					const { currencies, name, label }: any = input;
+					const { name, InputProps, label, autoFocus } = input;
+
 					if (input.value) value = input.value;
 
 					return (
 						<TextField
-							id='outlined-select-currency'
-							select
-							label={label}
 							onChange={onChange}
+							defaultValue={value}
+							label={label}
 							error={!!errors[name]}
-							helperText={errors[name] && errors[name].message}>
-							{currencies.map(({ name, value }: currencie) => (
-								<MenuItem key={value} value={value}>
-									{name}
-								</MenuItem>
-							))}
-						</TextField>
+							helperText={errors[name] && errors[name].message}
+							InputProps={InputProps ? InputProps : ''}
+							autoFocus={autoFocus ?? false}
+							type={'file'}
+						/>
 					);
 				};
+
+			case 'select':
+				return ({ field: { onChange, value } }: pInput): JSX.Element => {
+					const { currencies, name, label, autoFocus } = input;
+					if (input.value) value = input.value;
+
+					const handleChange = (event: SelectChangeEvent) => onChange(event);
+
+					return (
+						<FormControl>
+							<InputLabel id='demo-simple-select-label'>{label}</InputLabel>
+							<Select
+								error={!!errors[name]}
+								autoFocus={autoFocus ?? false}
+								defaultValue={value}
+								label={label}
+								onChange={handleChange}>
+								{currencies
+									? currencies.map(({ name }: any) => (
+											<MenuItem key={name} value={name}>
+												{name}
+											</MenuItem>
+									  ))
+									: []}
+							</Select>
+						</FormControl>
+					);
+				};
+
 			case 'select-multiple':
 				return ({ field: { onChange, value } }: pInput): JSX.Element => {
-					const { currencies, name, label }: any = input;
+					const { currencies, name, label, autoFocus, checkItems } = input;
 					if (input.value) value = input.value;
 
 					// eslint-disable-next-line react-hooks/rules-of-hooks
-					const [personName, setPersonName] = useState<string[]>([]);
+					const [personName, setPersonName] = useState<string[]>(checkItems ? checkItems : []);
 
 					const handleChange = (event: SelectChangeEvent<typeof personName>) => {
 						const {
 							target: { value },
 						} = event;
 
-						setPersonName(
-							// On autofill we get a the stringified value.
-							typeof value === 'string' ? value.split(',') : value,
-						);
+						setPersonName(typeof value === 'string' ? value.split(',') : value);
 
 						onChange(event);
 					};
@@ -135,54 +170,64 @@ const CreateFormStatic: FC<createFormPropsStatic> = ({
 								onChange={handleChange}
 								input={<OutlinedInput label={label} />}
 								renderValue={(selected) => selected.join(', ')}
-								MenuProps={currencies}
-								error={!!errors[name]}>
-								{currencies.map(({ name }: any) => (
-									<MenuItem key={name} value={name}>
-										<Checkbox checked={personName.indexOf(name) > -1} />
-										<ListItemText primary={name} />
-									</MenuItem>
-								))}
+								// MenuProps={currencies ? (currencies as any) : []}
+								error={!!errors[name]}
+								autoFocus={autoFocus ?? false}>
+								{currencies
+									? currencies.map(({ name }: any) => (
+											<MenuItem key={name} value={name}>
+												<Checkbox checked={personName.includes(name)} />
+												<ListItemText primary={name} />
+											</MenuItem>
+									  ))
+									: []}
 							</Select>
 						</FormControl>
 					);
 				};
+
 			case 'text':
 				return ({ field: { onChange, value } }: pInput): JSX.Element => {
-					const { name, InputProps, label } = input;
+					const { name, InputProps, label, autoFocus } = input;
 
 					if (input.value) value = input.value;
 
 					return (
 						<TextField
 							onChange={onChange}
-							value={value}
+							defaultValue={value}
 							label={label}
 							error={!!errors[name]}
 							helperText={errors[name] && errors[name].message}
 							InputProps={InputProps ? InputProps : ''}
+							autoFocus={autoFocus ?? false}
 						/>
 					);
 				};
+
 			case 'email':
 				return ({ field: { onChange, value } }: pInput): JSX.Element => {
-					const { name, InputProps, label } = input;
+					const { name, InputProps, label, autoFocus } = input;
+
+					if (input.value) value = input.value;
 
 					return (
 						<TextField
 							onChange={onChange}
-							value={value}
+							defaultValue={value}
 							label={label}
 							type='email'
 							error={!!errors[name]}
 							helperText={errors[name] && errors[name].message}
 							InputProps={InputProps ? InputProps : ''}
+							autoFocus={autoFocus ?? false}
 						/>
 					);
 				};
+
 			case 'password-see':
 				return ({ field: { onChange, value } }: pInput): JSX.Element => {
-					const { name, label } = input;
+					const { name, label, autoFocus } = input;
 
 					if (input.value) value = input.value;
 
@@ -205,11 +250,11 @@ const CreateFormStatic: FC<createFormPropsStatic> = ({
 
 					return (
 						<FormControl sx={{ m: 1 }} variant='outlined' error={!!errors[name]}>
-							<InputLabel htmlFor='outlined-adornment-password'>Password</InputLabel>
+							<InputLabel htmlFor='outlined-adornment-password'>{label}</InputLabel>
 							<OutlinedInput
 								id='outlined-adornment-password'
 								type={values.showPassword ? 'text' : 'password'}
-								value={values.password}
+								defaultValue={values.password}
 								onChange={handleChange('password')}
 								endAdornment={
 									<InputAdornment position='end'>
@@ -223,26 +268,98 @@ const CreateFormStatic: FC<createFormPropsStatic> = ({
 									</InputAdornment>
 								}
 								label={label}
+								autoFocus={autoFocus ?? false}
 							/>
 						</FormControl>
 					);
 				};
+
 			case 'password':
 				return ({ field: { onChange, value } }: pInput): JSX.Element => {
-					const { name, InputProps, label } = input;
+					const { name, InputProps, label, autoFocus } = input;
 
 					if (input.value) value = input.value;
 
 					return (
 						<TextField
 							onChange={onChange}
-							value={value}
+							defaultValue={value}
 							label={label}
 							type='password'
 							error={!!errors[name]}
 							helperText={errors[name] && errors[name].message}
 							InputProps={InputProps ? InputProps : ''}
+							autoFocus={autoFocus ?? false}
 						/>
+					);
+				};
+
+			case 'time-date':
+				return ({ field: { onChange, value } }: pInput): JSX.Element => {
+					const {
+						name,
+						timeConfig: { inputFormat, typeTime },
+						label,
+					}: any = input;
+
+					if (input.value) value = input.value;
+
+					// const [value, setValue] = useState<Date>(Val ?? new Date('2014-08-18T21:11:54'));
+
+					const handleChange = (newValue: Date | null) => {
+						onChange({ target: { name, value: newValue } });
+					};
+
+					return (
+						<LocalizationProvider locale={'es'} dateAdapter={DateAdapter}>
+							<Stack spacing={3}>
+								{(() => {
+									switch (typeTime) {
+										case 'Desktop':
+											return (
+												<DesktopDatePicker
+													label={label}
+													inputFormat={inputFormat ?? 'MM/dd/yyyy'}
+													value={value}
+													onChange={handleChange}
+													renderInput={(params) => <TextField {...params} />}
+												/>
+											);
+
+										case 'Mobile':
+											return (
+												<MobileDatePicker
+													label={label}
+													inputFormat={inputFormat ?? 'MM/dd/yyyy'}
+													value={value}
+													onChange={handleChange}
+													renderInput={(params) => <TextField {...params} />}
+												/>
+											);
+
+										case 'Time':
+											return (
+												<TimePicker
+													label={label}
+													value={value}
+													onChange={handleChange}
+													renderInput={(params) => <TextField {...params} />}
+												/>
+											);
+
+										case 'Date':
+											return (
+												<DateTimePicker
+													label={label}
+													value={value}
+													onChange={handleChange}
+													renderInput={(params) => <TextField {...params} />}
+												/>
+											);
+									}
+								})()}
+							</Stack>
+						</LocalizationProvider>
 					);
 				};
 		}

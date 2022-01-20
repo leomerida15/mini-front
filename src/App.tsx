@@ -1,25 +1,27 @@
+/** @format */
+
+// configs
 import './hooks/axios';
 
 // router
-import Router from './router/index.router';
+import Router from './router';
 
 // styles
 import './scss/index.scss';
-import { unstable_createMuiStrictModeTheme as createTheme } from '@material-ui/core';
-import { esES } from '@material-ui/data-grid';
-import { esES as coreesES } from '@material-ui/core/locale';
-import ThemeProvider from '@material-ui/styles/ThemeProvider';
-
-const theme = createTheme({}, esES, coreesES);
+import { createTheme, ThemeProvider, useTheme } from '@mui/material/styles';
+import { bgBG } from '@mui/x-data-grid-pro';
+import { bgBG as coreBgBG } from '@mui/material/locale';
 
 function App() {
+	const baceTheme = useTheme();
+
+	const theme = createTheme(baceTheme, bgBG, coreBgBG);
+
 	return (
 		<div className='ed-container'>
-			<div className='m-95 m-to-right'>
-				<ThemeProvider theme={theme}>
-					<Router />
-				</ThemeProvider>
-			</div>
+			<ThemeProvider theme={theme}>
+				<Router />
+			</ThemeProvider>
 		</div>
 	);
 }

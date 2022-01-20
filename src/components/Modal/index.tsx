@@ -1,3 +1,5 @@
+/** @format */
+
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
@@ -6,7 +8,8 @@ import { FC } from 'react';
 
 import PropTypes from 'prop-types';
 import { SxProps } from '@mui/system';
-import CreateForm, { createFormProps } from '../createForm';
+import CreateForm from '../createForm';
+import { ModalWinProps } from '../createForm/interface';
 
 const style: SxProps = {
 	position: 'absolute' as 'absolute',
@@ -22,12 +25,7 @@ const style: SxProps = {
 	py: 4,
 };
 
-const ModalWin: FC<{
-	open: boolean;
-	onClose: any;
-	children?: JSX.Element | JSX.Element[];
-	form?: createFormProps;
-}> = ({ open, onClose, form, children }) => {
+const ModalWin: FC<ModalWinProps> = ({ open, onClose, form, children }) => {
 	return (
 		<div>
 			<Modal
@@ -41,7 +39,11 @@ const ModalWin: FC<{
 					timeout: 500,
 				}}>
 				<Fade in={open}>
-					<Box sx={style}> {form ? <CreateForm {...form} /> : ''}</Box>
+					<Box sx={style}>
+						{' '}
+						{children ? children : ''}
+						{form ? <CreateForm {...form} /> : ''}
+					</Box>
 				</Fade>
 			</Modal>
 		</div>

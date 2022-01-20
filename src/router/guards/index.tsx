@@ -1,11 +1,27 @@
-import { GuardFunction } from 'react-router-guards';
+/** @format */
 
-export const Auth: GuardFunction = (to, from, next) => {
-	if (to.meta.auth) {
-		if (localStorage.getItem('token')) next();
-		else next.redirect('/');
-	} else {
-		if (localStorage.getItem('token')) next.redirect('/dash');
-		else next();
+import { FC } from 'react';
+import { Navigate, useLocation } from 'react-router-dom';
+
+export const RequireAuth: FC = ({ children }) => {
+	const location = useLocation();
+
+	if (localStorage.getItem('token')) return <>{children}</>;
+
+	if (!['/', '/pass'].includes(location.pathname)) {
+		debugger;
+		return <Navigate to='/' state={{ from: location }} replace />;
 	}
+
+	return <></>;
+};
+
+export const NotRequireAuth: FC = ({ children }) => {
+	const location = useLocation();
+
+	if (!localStorage.getItem('token')) return <>{children}</>;
+
+	if (!location.pathname.includes('dash')) return <Navigate to='/dash' state={{ from: location }} replace />;
+
+	return <></>;
 };

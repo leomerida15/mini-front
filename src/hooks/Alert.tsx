@@ -1,11 +1,18 @@
+/** @format */
+
 import { AxiosError } from 'axios';
-import Swal2 from 'sweetalert2';
+import Swal2, { SweetAlertOptions } from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import { Api } from '../interfaces';
 const Swal = withReactContent(Swal2);
 
 export default Swal;
 
-export const Error = (err: AxiosError | Api.Resp) => {
-	Swal.fire();
+export const AlertError = (err: AxiosError<Api.Resp> | any | Error, config?: SweetAlertOptions) => {
+	const { response } = err;
+	const text = response ? response.data.message : err.message ? err.message : '';
+
+	if (!config) Swal.fire({ title: 'Error', text, icon: 'error', timer: 2000 });
+	//
+	else Swal.fire({ text, ...config, timer: 2000 });
 };

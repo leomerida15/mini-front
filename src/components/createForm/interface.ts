@@ -10,11 +10,17 @@ export interface formAction<data = any> { (data: data, reset: () => void): void 
 export interface fromInput {
 	name: string;
 	label: string;
-	type: string;
+	type: 'time-date' | 'text' | 'password' | 'password-see' | 'select' | 'email' | 'select-multiple' | 'file';
+	autoFocus?: boolean;
+	checkItems?: string[];
 	rules: any;
 	value?: string | number;
 	render?: any;
-	currencies?: currencie[] | { name: string }[];
+	timeConfig?: {
+		inputFormat?: string;
+		typeTime?: | 'Desktop' | 'Mobile' | 'Time' | 'Date';
+	};
+	currencies?: currencie[];
 	InputProps?: any;
 }
 
@@ -42,14 +48,21 @@ export interface createFormPropsStatic {
 }
 
 export interface createFormProps {
-	fromInput?: fromInput[];
-	Action: any;
+	fromInput: fromInput[];
+	Action: formAction;
 	schema: any;
 	sx?: any;
 	context?: Context<any>;
 	conten?: string;
 	buttonText?: string;
 	ButtonClass?: string;
+}
+
+export interface ModalWinProps {
+	open: boolean;
+	onClose?: ((event: {}, reason: 'backdropClick' | 'escapeKeyDown') => void) | undefined;
+	children?: JSX.Element | JSX.Element[];
+	form?: createFormProps;
 }
 
 export type InputsGenerate = (pInput: pInput) => JSX.Element;

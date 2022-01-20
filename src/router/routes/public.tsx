@@ -2,30 +2,26 @@
 
 import { FC } from 'react';
 import { RouteObject, useRoutes } from 'react-router-dom';
-import Dash from '../../pages/private/Dash';
-import Users from '../../pages/private/views/Users/index';
-import Elections from '../../pages/private/views/Elections/index';
+import Home from '../../pages/Home';
+import Auth from '../../components/auth/index';
 
-const PrivatesRoutes: FC = () => {
+const PublicRoutes: FC = () => {
 	const routes: RouteObject[] = [
 		{
-			path: '/dash',
-			element: <Dash />,
+			path: '/',
+			element: <Home />,
 			children: [
 				{
 					index: true,
-					element: <Users />,
+					element: <Auth type={'login'} />,
 				},
 				{
-					path: '/dash/users',
-					element: <Users />,
-				},
-				{
-					path: '/dash/elections',
-					element: <Elections />,
+					path: '/pass',
+					element: <Auth type={'MailPass'} />,
 				},
 			],
 		},
+
 		// {
 		// 	path: '/',
 		// 	element: isLoggedIn ? <Home /> : <Navigate to='/dash' />,
@@ -56,4 +52,4 @@ const PrivatesRoutes: FC = () => {
 	return useRoutes(routes);
 };
 
-export default PrivatesRoutes;
+export default PublicRoutes;
