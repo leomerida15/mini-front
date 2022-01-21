@@ -13,6 +13,8 @@ import axios from 'axios';
 import { useContextUsers } from '.';
 import ModalWin from '../../../../components/Modal/index';
 import { Api } from '../../../../interfaces';
+import Loader from '../../../../components/loader';
+import CreateForm from '../../../../components/createForm/indexa';
 
 const schema = yup.object().shape({
 	name: yup.string(),
@@ -24,8 +26,11 @@ const schema = yup.object().shape({
 const EditUser: FC = () => {
 	const { reFreshList, openEditModal, EditModal, Rols, User } = useContextUsers();
 
-	const Action: formAction<Api.User> = async (data, reset) => {
+	const [ViewForm, setViewForm] = useState(false);
+
+	const Action: formAction<Api.User> = async (data) => {
 		try {
+			setViewForm(true);
 			const body = Object.fromEntries(
 				Object.entries(data)
 					.filter(([key, value]) => value)
@@ -43,9 +48,13 @@ const EditUser: FC = () => {
 
 			Swal.fire({ title: 'OK', text: resp.data.message, icon: 'success' });
 
+			setTimeout(() => {
+				EditModal();
+				setViewForm(false);
+			}, 1000);
+
 			reFreshList();
 		} catch (err: any) {
-			debugger;
 			console.error(err);
 
 			Swal.fire({ title: 'Error', text: err, icon: 'error' });
@@ -133,16 +142,18 @@ const EditUser: FC = () => {
 	}, [FromInput, Rols]);
 
 	return (
-		<ModalWin
-			open={openEditModal}
-			onClose={EditModal}
-			form={{
-				Action,
-				schema,
-				fromInput: FromInput,
-				buttonText: 'editar',
-			}}>
+		<ModalWin open={openEditModal} onClose={EditModal}>
 			<h2 className='s-center'>Editar Usuario</h2>
+			<Loader load={ViewForm}>
+				<CreateForm
+					{...{
+						Action,
+						schema,
+						fromInput: FromInput,
+						buttonText: 'editar',
+					}}
+				/>
+			</Loader>
 		</ModalWin>
 	);
 };

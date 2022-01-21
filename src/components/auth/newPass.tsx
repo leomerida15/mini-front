@@ -4,43 +4,58 @@ import * as yup from 'yup';
 import { setLocale } from 'yup';
 import { InputAdornment } from '@mui/material';
 import LockIcon from '@mui/icons-material/Lock';
-import { fromInput } from '../createForm/interface';
+import { fromInput, formAction } from '../createForm/interface';
 import axios from 'axios';
 import Swal, { AlertError } from '../../hooks/Alert';
-import { useNavigate } from 'react-router';
 import ModalWin from '../Modal/index';
 import LockRoundedIcon from '@mui/icons-material/LockRounded';
 import IconButton from '@mui/material/IconButton';
-
 import Tooltip from '@mui/material/Tooltip';
 import { useState } from 'react';
+import Loader from '../loader';
+import CreateForm from '../createForm/indexa';
 
 setLocale({
 	mixed: { required: `Este campo es requerido` },
+	string: {
+		// eslint-disable-next-line no-template-curly-in-string
+		min: 'El minimo de caracteres es de ${min}',
+		// eslint-disable-next-line no-template-curly-in-string
+		max: 'El maximo de caracteres es de ${max}',
+		email: 'El correo esta mal formateado',
+	},
 });
 
 const schema = yup
 	.object()
 	.shape({
-		password: yup.string().required(),
-		confirPass: yup.string().required(),
+		password: yup.string().min(8).max(12).required(),
+		confirPass: yup.string().min(8).max(12).required(),
 	})
 	.required();
 
 const NewPass = () => {
 	const [Open, setOpen] = useState(false);
 
-	const Action = async (body: any) => {
+	const [ViewForm, setViewForm] = useState(false);
+
+	const Action: formAction = async (body) => {
 		try {
+			setViewForm(true);
+
 			const resp = await axios.post('/auth/users/newPass', body);
 
 			Swal.fire({
 				title: resp.data.message,
 				icon: 'success',
-				text: 'Revise su correo',
 			});
+
+			setTimeout(() => {
+				setViewForm(false);
+				setOpen(!Open);
+			}, 1000);
 		} catch (err) {
-			localStorage.clear();
+			setViewForm(false);
 			AlertError(err);
 		}
 	};
@@ -80,15 +95,15 @@ const NewPass = () => {
 				aria-haspopup='true'
 				onClick={() => setOpen(!Open)}
 				color='inherit'>
-				<Tooltip title='Recuperar Contraseña'>
+				<Tooltip title='Cambiar Contraseña'>
 					<LockRoundedIcon />
 				</Tooltip>
 			</IconButton>
-			<ModalWin
-				onClose={() => setOpen(!Open)}
-				open={Open}
-				form={{ buttonText: 'Cambiar Contraseña', Action, schema, fromInput: fromData }}>
+			<ModalWin onClose={() => setOpen(!Open)} open={Open}>
 				<h2>Nueva Contraseña</h2>
+				<Loader load={ViewForm}>
+					<CreateForm buttonText='Cambiar Contraseña' Action={Action} schema={schema} fromInput={fromData} />
+				</Loader>
 			</ModalWin>
 		</>
 	);

@@ -3,7 +3,7 @@
 import { useState, FC, useLayoutEffect } from 'react';
 import CreateTable from '../../../../components/createTable/index';
 import axios, { AxiosResponse } from 'axios';
-import { Resp, Rols } from '../../../../interfaces/Api';
+import { Resp, UserTable } from '../../../../interfaces/Api';
 import useAxios from 'axios-hooks';
 import { useContextUsers } from './index';
 import { TableActions } from '../../../../components/createTable/interface';
@@ -12,7 +12,11 @@ import { Api } from '../../../../interfaces';
 const ListUsers: FC = () => {
 	const { NewUser, defineUser, Rols, EditModal } = useContextUsers();
 
-	const [{ data }] = useAxios<Resp<Rols[]>>('/users');
+	const [{ data }] = useAxios<Resp<UserTable[]>>({
+		url: '/users',
+		method: 'GET',
+		headers: { common: { authorization: localStorage.getItem('token') } },
+	});
 
 	const colums = [
 		{ field: 'id', headerName: 'ID', width: 120 },
@@ -21,10 +25,17 @@ const ListUsers: FC = () => {
 		{ field: 'roles', headerName: 'Roles', width: 170 },
 	];
 
-	const [Users, setUsers] = useState<any[]>([]);
+	const [Users, setUsers] = useState<UserTable[]>([
+		{
+			id: '',
+			name: '',
+			email: '',
+			roles: [{ name: '' }],
+		},
+	]);
 
 	useLayoutEffect(() => {
-		if (data && !NewUser) setUsers(data.info!);
+		if (data && data.info && !NewUser) setUsers(data.info);
 		else {
 			axios.get('/users').then(({ data }: AxiosResponse<Resp<any[]>>) => {
 				if (data.info) setUsers(data.info);

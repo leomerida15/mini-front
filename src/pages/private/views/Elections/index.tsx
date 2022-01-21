@@ -107,7 +107,7 @@ const Elections = () => {
 			}}>
 			<div className='ed-container s-py-5'>
 				<div className='ed-item'>
-					<h2>Lista de Elecciónes</h2>
+					<h2>Lista de Elecciones</h2>
 					<ListElections />
 				</div>
 				<CreateElections />

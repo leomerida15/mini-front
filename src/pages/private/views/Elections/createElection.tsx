@@ -7,10 +7,12 @@ import { fromInput, formAction, createFormProps } from '../../../../components/c
 import Swal, { AlertError } from '../../../../hooks/Alert';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import ModalWin from '../../../../components/Modal/index';
 import { Api } from '../../../../interfaces';
 import { useContextElection } from './index';
+import Loader from '../../../../components/loader';
+import CreateForm from '../../../../components/createForm/indexa';
 
 interface AxiosElection extends Api.Resp<{ message: string }> {}
 
@@ -23,13 +25,18 @@ const schema = yup
 const CreateUser: FC = () => {
 	const { reFreshList, openCreateModal, CreateModal } = useContextElection();
 
-	const Action: formAction<any> = async (body, reset) => {
+	const [ViewForm, setViewForm] = useState(false);
+
+	const Action: formAction<any> = async (body) => {
 		try {
-			const resp = await axios.post<AxiosElection>('/elections', body);
+			setViewForm(true);
 
-			Swal.fire({ title: 'OK', text: resp.data.info!.message, icon: 'success', timer: 2000 });
+			await axios.post<AxiosElection>('/elections', body);
 
-			reset();
+			Swal.fire({ title: 'OK', text: 'Elección Creada', icon: 'success' });
+
+			setTimeout(() => setViewForm(false), 1000);
+
 			reFreshList();
 		} catch (err: any) {
 			AlertError(err);
@@ -102,8 +109,11 @@ const CreateUser: FC = () => {
 	const form: createFormProps = { Action, schema, fromInput: fromData, buttonText: 'Crear' };
 
 	return (
-		<ModalWin open={openCreateModal} onClose={CreateModal} form={form}>
+		<ModalWin open={openCreateModal} onClose={CreateModal}>
 			<h2 className='s-center'>Crear Elección</h2>
+			<Loader load={ViewForm}>
+				<CreateForm {...form} />
+			</Loader>
 		</ModalWin>
 	);
 };

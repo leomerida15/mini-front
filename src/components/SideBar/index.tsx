@@ -8,7 +8,6 @@ import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 import CssBaseline from '@mui/material/CssBaseline';
-import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -18,29 +17,14 @@ import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import PeronIcon from '@mui/icons-material/Person';
-// import HomeIcon from '@mui/icons-material/Home';
 import NewPass from '../auth/newPass';
 import HowToVoteIcon from '@mui/icons-material/HowToVote';
 import LogoutIcon from '@mui/icons-material/Logout';
-
-// import AddIcon from '@mui/icons-material/Add';
-// import SearchIcon from '@mui/icons-material/Search';
-// import MoreIcon from '@mui/icons-material/MoreVert';
-// import Fab from '@mui/material/Fab';
 
 import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 const drawerWidth = 240;
-
-// const StyledFab = styled(Fab)({
-// 	position: 'absolute',
-// 	zIndex: 1,
-// 	top: -30,
-// 	left: 0,
-// 	right: 0,
-// 	margin: '0 auto',
-// });
 
 const openedMixin = (theme: Theme): CSSObject => ({
 	width: drawerWidth,
@@ -129,11 +113,9 @@ export default function MiniDrawer() {
 		{ icon: <HowToVoteIcon />, url: '/dash/elections', text: 'Eleciones' },
 	]);
 
-	const [nameSection, setNameSection] = useState('Inicio');
-
 	const exit = async () => {
 		const result = await Swal.fire({
-			title: 'Esta seguro que desea salir?',
+			title: '¿Esta seguro que desea salir?',
 			showDenyButton: true,
 			confirmButtonText: 'Si',
 			denyButtonText: `No`,
@@ -162,9 +144,13 @@ export default function MiniDrawer() {
 						}}>
 						<MenuIcon />
 					</IconButton>
-					<Typography variant='h6' noWrap component='div' sx={{ flexGrow: 1 }}>
-						{nameSection}
-					</Typography>
+
+					<div className='ed-grid m-grid-8 s-cross-center'>
+						<div className='s-ratio-16-9 img-container'>
+							<img src='./img/Lodo_Sabaneta_60x60.png' alt='aa' />
+						</div>
+					</div>
+
 					<NewPass />
 					<IconButton
 						size='large'
@@ -188,17 +174,13 @@ export default function MiniDrawer() {
 					{sideItems.map(({ text, icon, url }) => {
 						return (
 							<Link to={url}>
-								<ListItem onClick={() => setNameSection(text)} key={text}>
+								<ListItem key={text}>
 									<ListItemIcon>{icon}</ListItemIcon>
 									<ListItemText primary={text} />
 								</ListItem>
 							</Link>
 						);
 					})}
-					{/* <ListItem onClick={() => setNameSection(text)} key={text}>
-						<ListItemIcon></ListItemIcon>
-						<ListItemText primary={text} />
-					</ListItem> */}
 				</List>
 				<Divider />
 			</Drawer>

@@ -12,7 +12,7 @@ export const AlertError = (err: AxiosError<Api.Resp> | any | Error, config?: Swe
 	const { response } = err;
 	const text = response ? response.data.message : err.message ? err.message : '';
 
-	if (!config) Swal.fire({ title: 'Error', text, icon: 'error', timer: 2000 });
+	if (!config) Swal.fire({ title: 'Error', text, icon: 'error' });
 	//
-	else Swal.fire({ text, ...config, timer: 2000 });
+	else Swal.fire({ text, ...config });
 };

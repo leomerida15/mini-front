@@ -1,6 +1,7 @@
 /** @format */
 
 import * as yup from 'yup';
+import { setLocale } from 'yup';
 import { InputAdornment } from '@mui/material';
 import { AccountCircle } from '@material-ui/icons';
 import LockIcon from '@mui/icons-material/Lock';
@@ -20,13 +21,35 @@ import Tooltip from '@mui/material/Tooltip';
 import CreateForm from '../../../../components/createForm/index';
 import Button from '@mui/material/Button';
 import { AlertError } from '../../../../hooks/Alert';
+import Loader from '../../../../components/loader';
+
+setLocale({
+	// eslint-disable-next-line no-template-curly-in-string
+	mixed: { required: 'Este campo es requerido' },
+	string: {
+		// eslint-disable-next-line no-template-curly-in-string
+		min: 'El minimo de caracteres es de ${min}',
+		// eslint-disable-next-line no-template-curly-in-string
+		max: 'El maximo de caracteres es de ${max}',
+		//
+		email: 'El correo esta mal formateado',
+	},
+	array: {
+		// eslint-disable-next-line no-template-curly-in-string
+		min: 'Debe elegir minimo ${min} opción',
+
+		// eslint-disable-next-line no-template-curly-in-string
+		max: 'Puede elegir maximo ${max} opciones',
+	},
+});
 
 const schema = yup
-	.object({
+	.object()
+	.shape({
 		name: yup.string().required(),
 		email: yup.string().email().required(),
-		password: yup.string().required(),
-		confirPass: yup.string().required(),
+		password: yup.string().min(8).max(12).required(),
+		confirPass: yup.string().min(8).max(12).required(),
 		roles: yup.array().min(1).max(4).required(),
 	})
 	.required();
@@ -54,13 +77,17 @@ const CreateUser: FC = () => {
 		setAlignment(newAlignment);
 	};
 
+	const [ViewForm, setViewForm] = useState(false);
+
 	const Action: formAction<{
 		name: string;
 		password: string;
 		confirPass: string;
 		roles: any[];
-	}> = async (body, reset): Promise<void> => {
+	}> = async (body): Promise<void> => {
 		try {
+			setViewForm(true);
+
 			const { password, confirPass } = body;
 
 			if (password !== confirPass) throw new Error('Sus contraseñas no son inguales');
@@ -69,11 +96,15 @@ const CreateUser: FC = () => {
 
 			const resp = await axios.post('/auth/register', body);
 
-			Swal.fire({ title: 'OK', text: resp.data.message, icon: 'success' });
+			Swal.fire({ title: 'OK', icon: 'success', text: resp.data.message });
 
-			reset();
+			setTimeout(() => {
+				setViewForm(false);
+			}, 1000);
+
 			reFreshList();
 		} catch (err: any) {
+			setViewForm(false);
 			console.error(err);
 			AlertError(err);
 		}
@@ -176,24 +207,26 @@ const CreateUser: FC = () => {
 				</div>
 			</div>
 			{alignment === 'one' ? (
-				<CreateForm {...{ Action, schema, fromInput: fromData }} />
+				<Loader load={ViewForm}>
+					<CreateForm {...{ Action, schema, fromInput: fromData, buttonText: 'Crear' }} />
+				</Loader>
 			) : (
 				<div className='ed-item s-pt-3'>
 					<form className={'ed-grid m-grid-2'} onSubmit={onSubmit}>
-						<Button variant='contained'>
+						<Button htmlFor='upload-photo' variant='contained' component='label' aria-label='add'>
+							<input style={{ display: 'none' }} id='upload-photo' name='upload-photo' type='file' />
 							<ArticleSharpIcon /> Archivo
-							<input type='file' name='picture' hidden />
 						</Button>
+
 						<Button type={'submit'} variant='contained'>
-							Enviar <input type='file' name='picture' hidden />
+							Enviar
 						</Button>
 					</form>
 
 					<Button
 						href='./img/big-test.xlsx'
-						download='planilla_carga_masiva-usuarios'
+						download='planilla_carga_masiva-usuarios.xlsx'
 						className={'ed-item'}
-						type={'submit'}
 						variant='contained'>
 						Planilla de Carga masiva
 					</Button>

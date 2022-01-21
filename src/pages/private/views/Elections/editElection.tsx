@@ -12,6 +12,8 @@ import axios from 'axios';
 import { useContextElection } from './index';
 import ModalWin from '../../../../components/Modal/index';
 import { AlertError } from '../../../../hooks/Alert';
+import CreateForm from '../../../../components/createForm/indexa';
+import Loader from '../../../../components/loader';
 
 const schema = yup.object().shape({
 	name: yup.string(),
@@ -21,9 +23,12 @@ const schema = yup.object().shape({
 const EditElection: FC = () => {
 	const { reFreshList, openEditModal, EditModal, status, Election } = useContextElection();
 
-	const Action: formAction = async (data, reset) => {
+	const [ViewForm, setViewForm] = useState(false);
+
+	const Action: formAction = async (data) => {
 		try {
-			// debugger;
+			//
+			setViewForm(true);
 
 			const body = Object.fromEntries(
 				Object.entries(data)
@@ -41,15 +46,17 @@ const EditElection: FC = () => {
 
 			if (!Object.keys(body).length) throw new Error('No se puede actualizar una elección sin cambios');
 
-			console.log(`body`, body);
-
 			const resp = await axios.put('/elections/' + Election.id, body);
 
 			Swal.fire({ title: 'OK', text: resp.data.message, icon: 'success' });
 
+			setTimeout(() => {
+				EditModal();
+				setViewForm(false);
+			}, 1000);
+
 			reFreshList();
 		} catch (err: any) {
-			debugger;
 			console.error(err);
 			AlertError(err);
 		}
@@ -109,16 +116,18 @@ const EditElection: FC = () => {
 	}, [FromInput, Election, status]);
 
 	return (
-		<ModalWin
-			open={openEditModal}
-			onClose={EditModal}
-			form={{
-				Action,
-				schema,
-				fromInput: FromInput,
-				buttonText: 'editar',
-			}}>
+		<ModalWin open={openEditModal} onClose={EditModal}>
 			<h2 className='s-center'>Editar Elección</h2>
+			<Loader load={ViewForm}>
+				<CreateForm
+					{...{
+						Action,
+						schema,
+						fromInput: FromInput,
+						buttonText: 'editar',
+					}}
+				/>
+			</Loader>
 		</ModalWin>
 	);
 };

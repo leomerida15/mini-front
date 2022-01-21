@@ -49,8 +49,26 @@ export interface User {
 	roles?: Rols[];
 }
 
+export interface UserTable {
+	id: string | number;
+	name: string;
+	email: string;
+	roles: Rols[];
+}
+
 export interface Rols {
 	id?: number;
 	name: string;
 	Users?: User[];
+}
+
+interface Election_status {
+	id: string | number;
+	name: string;
+}
+
+export interface ElectionTalble {
+	id: string | number;
+	name: string;
+	status: Election_status
 }

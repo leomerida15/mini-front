@@ -22,7 +22,7 @@ const Home = () => {
 					<div className='s-right s-py-1'>
 						{pathname === '/' ? (
 							<Link to={'/pass'}>
-								<Typography>Olvido su contraseña?</Typography>
+								<Typography>¿Olvido su contraseña?</Typography>
 							</Link>
 						) : (
 							<Link to={'/'}>

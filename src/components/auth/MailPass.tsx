@@ -9,6 +9,8 @@ import { fromInput } from '../createForm/interface';
 import axios from 'axios';
 import Swal, { AlertError } from '../../hooks/Alert';
 import { useNavigate } from 'react-router';
+import Loader from '../loader';
+import { useState } from 'react';
 
 setLocale({
 	mixed: { required: `Este campo es requerido` },
@@ -24,20 +26,23 @@ const schema = yup
 const MailPass = () => {
 	const Navigate = useNavigate();
 
+	const [ViewForm, setViewForm] = useState(false);
+
 	const Action = async (body: any) => {
 		try {
-			debugger;
+			Swal.fire({
+				didOpen: () => {
+					Swal.showLoading();
+				},
+			});
+
 			await axios.post('/auth/newPassEmail', body);
 
-			Swal.fire({
-				title: 'Se ha enviado un correo',
-				icon: 'success',
-				text: 'Revise su correo',
-				timer: 2000,
-			});
+			setTimeout(() => setViewForm(false), 1000);
 
 			Navigate('/');
 		} catch (err) {
+			setViewForm(false);
 			localStorage.clear();
 			AlertError(err);
 		}
@@ -63,7 +68,11 @@ const MailPass = () => {
 		},
 	];
 
-	return <CreateForm buttonText='Enviar' Action={Action} schema={schema} fromInput={fromData} />;
+	return (
+		<Loader load={ViewForm}>
+			<CreateForm buttonText='Enviar' Action={Action} schema={schema} fromInput={fromData} />
+		</Loader>
+	);
 };
 
 export default MailPass;

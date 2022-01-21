@@ -5,7 +5,7 @@ export interface currencie {
 	name: string;
 }
 
-export interface formAction<data = any> { (data: data, reset: () => void): void | any | Promise<void | any> }
+export interface formAction<data = any> { (data: data): void | any | Promise<void | any> }
 
 export interface fromInput {
 	name: string;
