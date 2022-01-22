@@ -6,7 +6,7 @@ import { Resp } from '../interfaces/Api';
 // Set config defaults when creating the instance
 
 // config
-axios.defaults.baseURL = 'http://sabaneta.miproyectoparticipativo.com:5000/v1';
+axios.defaults.baseURL = 'https://sabaneta.miproyectoparticipativo.com/v1';
 // axios.defaults.baseURL = 'http://localhost:5000/v1';
 // 
 axios.defaults.headers.common['authorization'] = localStorage.getItem('token');
