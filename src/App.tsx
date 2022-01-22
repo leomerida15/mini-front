@@ -7,7 +7,6 @@ import './hooks/axios';
 import Router from './router';
 
 // styles
-import './css/index.css';
 import { createTheme, ThemeProvider, useTheme } from '@mui/material/styles';
 import { bgBG } from '@mui/x-data-grid-pro';
 import { bgBG as coreBgBG } from '@mui/material/locale';
