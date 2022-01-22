@@ -1,5 +1,7 @@
-cp -r build ../
+cp -r build ..
+
+cd ..
 
 rm -r html
 
-mv -r build html
+mv build html
