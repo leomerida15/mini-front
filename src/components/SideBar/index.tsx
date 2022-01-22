@@ -147,7 +147,7 @@ export default function MiniDrawer() {
 
 					<div className='ed-grid m-grid-8 s-cross-center'>
 						<div className='s-ratio-16-9 img-container'>
-							<img src='./img/Lodo_Sabaneta_60x60.png' alt='aa' />
+							<img src='img/Lodo_Sabaneta_60x60.png' alt='aa' />
 						</div>
 					</div>
 
