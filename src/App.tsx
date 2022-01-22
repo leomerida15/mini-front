@@ -10,6 +10,7 @@ import Router from './router';
 import { createTheme, ThemeProvider, useTheme } from '@mui/material/styles';
 import { bgBG } from '@mui/x-data-grid-pro';
 import { bgBG as coreBgBG } from '@mui/material/locale';
+import './css/index.css';
 
 function App() {
 	const baceTheme = useTheme();
