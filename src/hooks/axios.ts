@@ -25,3 +25,5 @@ const cache = new LRU({ max: 10 })
 
 
 configure({ axios, cache })
+
+export default axios;

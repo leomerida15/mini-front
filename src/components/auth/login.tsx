@@ -7,7 +7,7 @@ import { InputAdornment } from '@mui/material';
 import LockIcon from '@mui/icons-material/Lock';
 import EmailIcon from '@mui/icons-material/Email';
 import { fromInput, formAction } from '../createForm/interface';
-import axios from 'axios';
+import axios from '../../hooks/axios';
 import { AlertError } from '../../hooks/Alert';
 import { useNavigate } from 'react-router';
 import { useContextRouter } from '../../router/context/index';

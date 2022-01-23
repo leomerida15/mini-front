@@ -5,7 +5,7 @@ import { setLocale } from 'yup';
 import { InputAdornment } from '@mui/material';
 import LockIcon from '@mui/icons-material/Lock';
 import { fromInput, formAction } from '../createForm/interface';
-import axios from 'axios';
+import axios from '../../hooks/axios';
 import Swal, { AlertError } from '../../hooks/Alert';
 import ModalWin from '../Modal/index';
 import LockRoundedIcon from '@mui/icons-material/LockRounded';

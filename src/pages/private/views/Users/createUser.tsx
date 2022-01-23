@@ -8,7 +8,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import EmailIcon from '@mui/icons-material/Email';
 import { fromInput, formAction } from '../../../../components/createForm/interface';
 import Swal from '../../../../hooks/Alert';
-import axios from 'axios';
+import axios from '../../../../hooks/axios';
 import PropTypes from 'prop-types';
 import { FC, useState, MouseEvent } from 'react';
 import { useContextUsers } from '.';

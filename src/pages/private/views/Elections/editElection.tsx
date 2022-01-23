@@ -8,7 +8,7 @@ import { AccountCircle } from '@material-ui/icons';
 import LockIcon from '@mui/icons-material/Lock';
 import { fromInput, formAction } from '../../../../components/createForm/interface';
 import Swal from '../../../../hooks/Alert';
-import axios from 'axios';
+import axios from '../../../../hooks/axios';
 import { useContextElection } from './index';
 import ModalWin from '../../../../components/Modal/index';
 import { AlertError } from '../../../../hooks/Alert';

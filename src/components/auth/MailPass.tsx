@@ -6,7 +6,7 @@ import { setLocale } from 'yup';
 import { InputAdornment } from '@mui/material';
 import EmailIcon from '@mui/icons-material/Email';
 import { fromInput } from '../createForm/interface';
-import axios from 'axios';
+import axios from '../../hooks/axios';
 import Swal, { AlertError } from '../../hooks/Alert';
 import { useNavigate } from 'react-router';
 import Loader from '../loader';

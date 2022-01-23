@@ -5,7 +5,7 @@ import { InputAdornment } from '@mui/material';
 import { AccountCircle } from '@material-ui/icons';
 import { fromInput, formAction, createFormProps } from '../../../../components/createForm/interface';
 import Swal, { AlertError } from '../../../../hooks/Alert';
-import axios from 'axios';
+import axios from '../../../../hooks/axios';
 import PropTypes from 'prop-types';
 import { FC, useState } from 'react';
 import ModalWin from '../../../../components/Modal/index';

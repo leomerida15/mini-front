@@ -9,7 +9,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import EmailIcon from '@mui/icons-material/Email';
 import { fromInput, formAction } from '../../../../components/createForm/interface';
 import Swal from '../../../../hooks/Alert';
-import axios from 'axios';
+import axios from '../../../../hooks/axios';
 import { useContextUsers } from '.';
 import ModalWin from '../../../../components/Modal/index';
 import { Api } from '../../../../interfaces';
