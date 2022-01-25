@@ -119,7 +119,6 @@ export default function MiniDrawer() {
 			showDenyButton: true,
 			confirmButtonText: 'Si',
 			denyButtonText: `No`,
-			timer: 2000,
 		});
 
 		if (result.isConfirmed) {

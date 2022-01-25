@@ -224,8 +224,8 @@ const CreateUser: FC = () => {
 					</form>
 
 					<Button
-						href='./img/big-test.xlsx'
-						download='planilla_carga_masiva-usuarios.xlsx'
+						href='./img/planilla_carga_masiva_usuarios.xlsx'
+						download='planilla_carga_masiva_usuarios.xlsx'
 						className={'ed-item'}
 						variant='contained'>
 						Planilla de Carga masiva
