@@ -222,14 +222,6 @@ const CreateUser: FC = () => {
 							Enviar
 						</Button>
 					</form>
-
-					{/* <Button
-						href='./img/planilla_carga_masiva_usuarios.rar'
-						download='planilla_carga_masiva_usuarios.rar'
-						className={'ed-item'}
-						variant='contained'>
-						Planilla de Carga masiva
-					</Button> */}
 				</div>
 			)}
 		</ModalWin>
