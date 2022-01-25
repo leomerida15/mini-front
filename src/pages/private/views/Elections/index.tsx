@@ -64,7 +64,7 @@ export const ReducerElection = (state: any, { payload, type }: any) => {
 };
 
 const Elections = () => {
-	const [{ data }] = useAxios<Resp<Rols[]>>('/elections/status');
+	const [{ data }, refetch] = useAxios<Resp<Rols[]>>('/elections/status');
 
 	const [state, dispatch] = useReducer(ReducerElection, InitDataElection);
 
@@ -90,6 +90,8 @@ const Elections = () => {
 		if (data) {
 			dispatch({ type: TypesElection.Status, payload: data.info! });
 			setRefreshView(RefreshView + 1);
+		} else {
+			refetch();
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [data]);

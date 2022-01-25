@@ -64,7 +64,7 @@ export const ReducerUsers = (state: any, { payload, type }: any) => {
 };
 
 const Users = () => {
-	const [{ data }] = useAxios<Resp<Rols[]>>('/roles');
+	const [{ data }, refetch] = useAxios<Resp<Rols[]>>('/roles');
 
 	const [state, dispatch] = useReducer(ReducerUsers, InitDataUsers);
 
@@ -90,6 +90,8 @@ const Users = () => {
 		if (data) {
 			dispatch({ type: TypesUsers.Roles, payload: data.info! });
 			setRefreshView(RefreshView + 1);
+		} else {
+			refetch();
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [data]);
