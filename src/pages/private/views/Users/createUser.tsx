@@ -190,7 +190,7 @@ const CreateUser: FC = () => {
 	return (
 		<ModalWin open={openCreateModal} onClose={CreateModal}>
 			<div className='s-px-1 ed-container'>
-				<h2 className='s-to-left'>{alignment === 'one' ? 'Crear Usuario' : 'carga masiva de usuarios'}</h2>
+				<h2 className='s-to-left'>{alignment === 'one' ? 'Crear Usuario' : 'Carga masiva de usuarios'}</h2>
 				<div className='s-to-right'>
 					<ToggleButtonGroup value={alignment} exclusive onChange={handleAlignment} aria-label='text alignment'>
 						<ToggleButton value='one' aria-label='left aligned'>
