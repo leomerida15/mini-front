@@ -58,12 +58,18 @@ const CreateUser: FC = () => {
 	const onSubmit = async (e: any) => {
 		try {
 			e.preventDefault();
+			setViewForm(true);
+
 			const body = new FormData();
 			body.append('images', e.target[0].files[0]);
 
 			const resp = await axios.post('/auth/register/big', body);
 
 			Swal.fire({ title: 'OK', text: resp.data.message, icon: 'success' });
+
+			setTimeout(() => setViewForm(false), 1000);
+
+			reFreshList();
 		} catch (err) {
 			AlertError(err);
 		}
@@ -98,9 +104,7 @@ const CreateUser: FC = () => {
 
 			Swal.fire({ title: 'OK', icon: 'success', text: resp.data.message });
 
-			setTimeout(() => {
-				setViewForm(false);
-			}, 1000);
+			setTimeout(() => setViewForm(false), 1000);
 
 			reFreshList();
 		} catch (err: any) {
@@ -212,16 +216,18 @@ const CreateUser: FC = () => {
 				</Loader>
 			) : (
 				<div className='ed-item s-pt-3'>
-					<form className={'ed-grid m-grid-2'} onSubmit={onSubmit}>
-						<Button htmlFor='upload-photo' variant='contained' component='label' aria-label='add'>
-							<input style={{ display: 'none' }} id='upload-photo' name='upload-photo' type='file' />
-							<ArticleSharpIcon /> Archivo
-						</Button>
+					<Loader load={ViewForm}>
+						<form className={'ed-grid m-grid-2'} onSubmit={onSubmit}>
+							<Button htmlFor='upload-photo' variant='contained' component='label' aria-label='add'>
+								<input style={{ display: 'none' }} id='upload-photo' name='upload-photo' type='file' />
+								<ArticleSharpIcon /> Archivo
+							</Button>
 
-						<Button type={'submit'} variant='contained'>
-							Enviar
-						</Button>
-					</form>
+							<Button type={'submit'} variant='contained'>
+								Enviar
+							</Button>
+						</form>{' '}
+					</Loader>
 				</div>
 			)}
 		</ModalWin>
