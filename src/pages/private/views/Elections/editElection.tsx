@@ -57,6 +57,7 @@ const EditElection: FC = () => {
 
 			reFreshList();
 		} catch (err: any) {
+			setViewForm(false);
 			console.error(err);
 			AlertError(err);
 		}

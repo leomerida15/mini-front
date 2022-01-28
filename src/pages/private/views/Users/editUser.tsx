@@ -55,7 +55,7 @@ const EditUser: FC = () => {
 
 			reFreshList();
 		} catch (err: any) {
-			console.error(err);
+			setViewForm(false);
 
 			Swal.fire({ title: 'Error', text: err, icon: 'error' });
 		}

@@ -39,6 +39,7 @@ const CreateUser: FC = () => {
 
 			reFreshList();
 		} catch (err: any) {
+			setViewForm(false);
 			AlertError(err);
 		}
 	};
