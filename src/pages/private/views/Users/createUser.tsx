@@ -239,7 +239,7 @@ const CreateUser: FC = () => {
 								variant='contained'
 								component='a'
 								aria-label='add'>
-								<ArticleSharpIcon /> Documento de Excel
+								<ArticleSharpIcon /> Planilla de carga masiva
 							</Button>
 						</form>{' '}
 					</Loader>
