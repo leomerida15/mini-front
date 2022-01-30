@@ -58,6 +58,8 @@ const Login = () => {
 
 			saveAuth.login(resp.data.token);
 
+			window.location.reload();
+
 			Navigate('/dash/users');
 		} catch (err) {
 			setViewForm(false);

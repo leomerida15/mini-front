@@ -1,5 +1,7 @@
 cd /var/www/mini-front
 
+git pull
+
 cp -r build ..
 
 cd ..

@@ -7,7 +7,7 @@ import { InputAdornment } from '@mui/material';
 import EmailIcon from '@mui/icons-material/Email';
 import { fromInput } from '../createForm/interface';
 import axios from '../../hooks/axios';
-import { AlertError } from '../../hooks/Alert';
+import Swal, { AlertError } from '../../hooks/Alert';
 import { useNavigate } from 'react-router';
 import Loader from '../loader';
 import { useState } from 'react';
@@ -33,6 +33,11 @@ const MailPass = () => {
 			setViewForm(true);
 
 			await axios.post('/auth/newPassEmail', body);
+
+			Swal.fire({
+				title: 'Revise su correo',
+				icon: 'success',
+			});
 
 			setTimeout(() => {
 				setViewForm(false);

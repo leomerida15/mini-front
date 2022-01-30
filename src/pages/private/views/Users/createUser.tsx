@@ -72,6 +72,7 @@ const CreateUser: FC = () => {
 
 			reFreshList();
 		} catch (err) {
+			setViewForm(false);
 			AlertError(err);
 		}
 	};
@@ -227,6 +228,18 @@ const CreateUser: FC = () => {
 
 							<Button type={'submit'} variant='contained'>
 								Enviar
+							</Button>
+							<br />
+							<Button
+								href={
+									'https://docs.google.com/spreadsheets/d/1lXnGUK57SXQvSfOSWFr5BdXhgr-1P0tK/edit?usp=sharing&ouid=104417394668609533492&rtpof=true&sd=true'
+								}
+								target='_blank'
+								className={'m-cols-2 '}
+								variant='contained'
+								component='a'
+								aria-label='add'>
+								<ArticleSharpIcon /> Documento de Excel
 							</Button>
 						</form>{' '}
 					</Loader>
