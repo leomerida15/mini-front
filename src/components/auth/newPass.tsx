@@ -43,6 +43,7 @@ const NewPass = () => {
 		try {
 			setViewForm(true);
 
+			axios.defaults.headers.common['authorization'] = localStorage.getItem('token');
 			const resp = await axios.post('/auth/users/newPass', body);
 
 			Swal.fire({

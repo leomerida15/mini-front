@@ -45,6 +45,7 @@ const Login = () => {
 
 			setViewForm(true);
 
+			axios.defaults.headers.common['authorization'] = localStorage.getItem('token');
 			const resp = await axios.post('/auth/login', body);
 
 			const valid_rol = resp.data.info.roles.find((rol: any) => rol.name === 'Admin');

@@ -63,6 +63,7 @@ const CreateUser: FC = () => {
 			const body = new FormData();
 			body.append('images', e.target[0].files[0]);
 
+			axios.defaults.headers.common['authorization'] = localStorage.getItem('token');
 			const resp = await axios.post('/auth/register/big', body);
 
 			Swal.fire({ title: 'OK', text: resp.data.message, icon: 'success' });
@@ -100,6 +101,7 @@ const CreateUser: FC = () => {
 
 			body.roles = Rols.filter((rol) => body.roles.includes(rol.name));
 
+			axios.defaults.headers.common['authorization'] = localStorage.getItem('token');
 			const resp = await axios.post('/auth/register', body);
 
 			Swal.fire({ title: 'OK', icon: 'success', text: resp.data.message });

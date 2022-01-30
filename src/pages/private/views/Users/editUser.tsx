@@ -44,6 +44,7 @@ const EditUser: FC = () => {
 					}),
 			);
 
+			axios.defaults.headers.common['authorization'] = localStorage.getItem('token');
 			const resp = await axios.put('/users/' + User.id, body);
 
 			Swal.fire({ title: 'OK', text: resp.data.message, icon: 'success' });

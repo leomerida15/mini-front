@@ -46,6 +46,7 @@ const EditElection: FC = () => {
 
 			if (!Object.keys(body).length) throw new Error('No se puede actualizar una elección sin cambios');
 
+			axios.defaults.headers.common['authorization'] = localStorage.getItem('token');
 			const resp = await axios.put('/elections/' + Election.id, body);
 
 			Swal.fire({ title: 'OK', text: resp.data.message, icon: 'success' });
